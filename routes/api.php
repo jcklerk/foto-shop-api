@@ -7,10 +7,9 @@ Route::get('/', function (Request $request) {
     return 
     [
         'message' => 'Welcome to the API',
-        'links' => [
-            'login' => '/api/login',
-            'user' => '/api/user',
-        ]
+        'version' => '1.0.0',
+        'author' => 'jcklerk',
+        'documentation' => '/documentation',
     ];
 });
 
@@ -18,4 +17,4 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::post('/login', 'App\Http\Controllers\account\LoginController@sendLink');
+Route::post('/login', 'App\Http\Controllers\LoginController@login');

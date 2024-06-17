@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.2",
         "cesargb/laravel-magiclink": "^2.20",
+        "g4t/swagger": "^3.1",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9"

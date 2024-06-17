@@ -1,23 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\account;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Actions\MagicLink\LoginAction;
+use App\Http\Requests\LoginRequest;
 use MagicLink\MagicLink;
 use Illuminate\Support\Facades\RateLimiter;
 
 class LoginController extends Controller
 {
-    public function sendLink(Request $request)
+    public function login(LoginRequest $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'callback' => 'nullable|url'
-        ]);
-
+        $request->validated();
         // rate limit
         $rateLimitString = 'loginUrlAtempt:'.$request->email."+".$request->ip;
         if (RateLimiter::tooManyAttempts($rateLimitString, $maxAttempts = 1)) {
@@ -31,10 +28,12 @@ class LoginController extends Controller
         RateLimiter::increment($rateLimitString, $decaySeconds = 90);
 
         // login action
-        $user = User::where('email', $request->email)->firstOrFail();
+        $user = User::where('email', $request->email)->firstOr(function () { return null; });
+
         if (!$user) {
             return response()->json(['message' => 'Invalid email'], 400);
         }
+        
         $action = new LoginAction($user);
 
         $lifetime = 240; // expired in the time
@@ -47,8 +46,6 @@ class LoginController extends Controller
         if ($request->callback) {
             $url = $request->callback . '?callback=' . $magicLink->id . urlencode(':') . $magicLink->token;
         }        
-
-        // dd([$magicLink->url,$magicLink->id . urlencode(':') . $magicLink->token]);
 
         return response()->json([
             'success' => true,
