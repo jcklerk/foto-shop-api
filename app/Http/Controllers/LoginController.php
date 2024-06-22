@@ -33,8 +33,10 @@ class LoginController extends Controller
         if (!$user) {
             return response()->json(['message' => 'Invalid email'], 400);
         }
+
+        $rememberMe = $request->remember_me ?? false;
         
-        $action = new LoginAction($user);
+        $action = new LoginAction($user, $rememberMe);
 
         $lifetime = 240; // expired in the time
         $numMaxVisits = 1; // Only can visit one time

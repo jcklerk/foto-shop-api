@@ -23,7 +23,8 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => 'required|email',
-            'callback' => 'nullable|url'
+            'callback' => 'nullable|url',
+            'remember_me' => 'nullable|boolean'
         ];
     }
 }
