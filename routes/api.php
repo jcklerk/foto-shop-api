@@ -13,8 +13,22 @@ Route::get('/', function (Request $request) {
     ];
 });
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
 
 Route::post('/login', 'App\Http\Controllers\LoginController@login');
+
+
+Route::resource('/event', App\Http\Controllers\EventController::class);
+
+Route::resource('/picture', App\Http\Controllers\PictureController::class);
+
+Route::resource('/run', App\Http\Controllers\RunsController::class);
+
+Route::resource('/picture', App\Http\Controllers\PictureController::class);
+
+Route::prefix('user')->name('user.')->group(function ($test) {
+
+    Route::resource('account', App\Http\Controllers\UserController::class);
+    Route::resource('order', App\Http\Controllers\OrderController::class);
+
+})->middleware('auth:sanctum');
+

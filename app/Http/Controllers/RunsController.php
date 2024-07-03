@@ -11,7 +11,7 @@ class RunsController extends Controller
      */
     public function index()
     {
-        //
+        return redirect("event.index"); // kijken wat ik met deze route wil.
     }
 
     /**
@@ -27,7 +27,26 @@ class RunsController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return [
+                "runID" => 1,
+                "runName" => "title",
+                "runDistance_km" => 5,
+                "img" => "https://url.test/img.png",
+                "pictures" => [
+                    [
+                        "id" => 1,
+                        "number" => [22],
+                        "img" => "https://url.test/img.png",
+                        "dateTime" => (new \DateTime())
+                    ],
+                    [
+                        "id" => 2,
+                        "number" => [22],
+                        "img" => "https://url.test/img.png",
+                        "dateTime" => (new \DateTime())
+                    ],
+                ],
+        ];
     }
 
     /**

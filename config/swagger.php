@@ -71,7 +71,7 @@ return [
     */
     "auth_middlewares" => [
         "auth",
-        "auth:api"
+        "auth:sanctum"
     ],
 
     /*
@@ -161,7 +161,7 @@ return [
     */
     "security_schemes" => [
         "authorization" => [
-            "type" => "apiKey",
+            "type" => "bearerToken", // need correct type for auth.
             "name" => "authorization",
             "in" => "header"
         ],
