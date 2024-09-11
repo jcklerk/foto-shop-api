@@ -6,11 +6,14 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "aws/aws-sdk-php": "^3.321",
         "cesargb/laravel-magiclink": "^2.20",
         "g4t/swagger": "^3.1",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
-        "laravel/tinker": "^2.9"
+        "laravel/tinker": "^2.9",
+        "league/flysystem-aws-s3-v3": "^3.28",
+        "mollie/laravel-mollie": "^3.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

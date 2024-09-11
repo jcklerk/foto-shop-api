@@ -7,8 +7,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Actions\MagicLink\LoginAction;
 use App\Http\Requests\LoginRequest;
+use App\Mail\LoginLink;
 use MagicLink\MagicLink;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Mail;
 
 class LoginController extends Controller
 {
@@ -46,13 +48,15 @@ class LoginController extends Controller
         $url = $magicLink->url;
 
         if ($request->callback) {
-            $url = $request->callback . '?callback=' . $magicLink->id . urlencode(':') . $magicLink->token;
+            $url = $request->callback . $magicLink->id . urlencode(':') . $magicLink->token;
         }        
 
+         //Mail::to($user->email)->send(new LoginLink($url, $user->name));
+
         return response()->json([
-            'success' => true,
-            'message' => 'Login link sent',
-            'url' => $url,
+            'success' => false,
+            //'message' => 'Login link sent',
+            'message' => $url,
         ]);
     }
 }

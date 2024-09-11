@@ -17,18 +17,30 @@ Route::get('/', function (Request $request) {
 Route::post('/login', 'App\Http\Controllers\LoginController@login');
 
 
-Route::resource('/event', App\Http\Controllers\EventController::class);
+Route::apiResource('/event', App\Http\Controllers\EventController::class);
 
-Route::resource('/picture', App\Http\Controllers\PictureController::class);
+Route::apiResource('/organization', App\Http\Controllers\OrganizationController::class);
 
-Route::resource('/run', App\Http\Controllers\RunsController::class);
+Route::apiResource('/picture', App\Http\Controllers\PictureController::class);
 
-Route::resource('/picture', App\Http\Controllers\PictureController::class);
+Route::apiResource('/run', App\Http\Controllers\RunsController::class);
+
+Route::apiResource('/picture', App\Http\Controllers\PictureController::class);
 
 Route::prefix('user')->name('user.')->group(function ($test) {
 
-    Route::resource('account', App\Http\Controllers\UserController::class);
-    Route::resource('order', App\Http\Controllers\OrderController::class);
+    Route::apiResource('account', App\Http\Controllers\UserController::class);
+    Route::apiResource('order', App\Http\Controllers\OrderController::class);
 
 })->middleware('auth:sanctum');
 
+
+Route::prefix("checkout")->name("checkout.")->group(function () {
+    Route::post('create', 'App\Http\Controllers\PaymentController@createCheckout')->name('create');
+    Route::post('webhook', 'App\Http\Controllers\PaymentController@handleWebhookNotification')->name('webhooks');
+});
+
+Route::prefix("processPicture")->name("processPicture.")->group(function () {
+    Route::get('', 'App\Http\Controllers\PictureProcessController@index')->name('index');
+    Route::post('', 'App\Http\Controllers\PictureProcessController@store')->name('store');
+});

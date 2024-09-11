@@ -11,7 +11,15 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        //
+        return [
+            [
+                "id" => 1,
+                "name" => "name van organisatie",
+                "location" => "Zwolle",
+                "img" => "https://picsum.photos/501/501",
+            ],
+
+        ];
     }
 
     /**

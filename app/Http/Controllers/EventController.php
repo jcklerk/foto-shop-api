@@ -17,13 +17,13 @@ class EventController extends Controller
                 "id" => 1,
                 "name" => "ZwolleRun",
                 "city" => "Zwolle",
-                "img" => "https://url.test/img.png",
+                "img" => "https://picsum.photos/500/500",
                 "startDate" => "2-2-2024",
                 "endDate" => "2-2-2024",
                 "organization" => [
                     "orgId" => 1,
                     "orgName" => "name van organisatie",
-                    "orgLogo" => "https://url.test/logo.png",
+                    "orgLogo" => "https://picsum.photos/501/501",
                 ],
                 "runs" => [
                     [
