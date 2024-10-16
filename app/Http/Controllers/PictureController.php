@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Picture;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreatePictureRequest;
+use Illuminate\Support\Facades\Storage;
 
 class PictureController extends Controller
 {
@@ -18,20 +19,55 @@ class PictureController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(CreatePictureRequest $request)
+     * Store a newly created resource in storage. CreatePictureRequest
+     */ 
+    public function store(Request $request)
     {
-        $md5Name = md5_file($request->file('img')->getRealPath());
-        $guessExtension = $request->file('img')->guessExtension();
-        $path = $request->file('img')->storeAs('photos', $md5Name.'.'.$guessExtension  ,'s3');
+        if ($request->hasFile('img')) {
+            $files = $request->file('img');
 
-        Picture::create([
-            'img' => $path,
-            'processed' => 'false',
-        ]);
+            foreach ($files as $file) {
 
-        return response()->json($path,200);
+                $md5Name = md5_file($file->getRealPath());
+                $guessExtension = $file->guessExtension();
+                if (!Storage::disk('s3')->exists('photos/' . $md5Name.'.'.$guessExtension))
+                {
+                    $path = $file->storeAs('photos', $md5Name.'.'.$guessExtension  ,'s3');
+                    // Optional: You might want to validate or log the $path or handle errors
+                    if (!$path) {
+                        return response()->json(['status' => 'File upload failed'], 500);
+                    }
+                    Picture::create([
+                        'img' => $path,
+                        'processed' => 'false',
+                    ]);
+                } else {
+                    print("File already exists");
+                }              
+            }
+
+            return response()->json(['status' => 'Files uploaded successfully'], 200);
+        }
+
+        return response()->json(['status' => 'No files provided'], 400);
+    
+        // return response()->json($request,200);
+        //print($request);
+        // reqest contains mutiple files posted as form data
+        // $files = $request->file('img');
+        // $path = $request->file('img')->store('photos');
+        // return response()->json($path,200);
+        
+        // $md5Name = md5_file($request->file('img')->getRealPath());
+        // $guessExtension = $request->file('img')->guessExtension();
+        // $path = $request->file('img')->storeAs('photos', $md5Name.'.'.$guessExtension  ,'s3');
+
+        // Picture::create([
+        //     'img' => $path,
+        //     'processed' => 'false',
+        // ]);
+
+        // return response()->json($path,200);
 
         
     }

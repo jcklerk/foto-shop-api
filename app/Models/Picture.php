@@ -12,5 +12,12 @@ class Picture extends Model
         protected $fillable = [
         'img',
         'processed',
+        'searchText',
+        'thumbnail',
     ];
+
+    public function run()
+    {
+        return $this->belongsTo(Run::class);
+    }
 }
