@@ -22,7 +22,7 @@ class PictureProcessController extends Controller
         
         return [
             "id" => $picture->id,
-            "imgUrl" => env('AWS_URL') . "/" . $picture->img,
+            "imgUrl" => config("filesystems.disks.s3.url") . "/" . $picture->img,
         ];
     }
 

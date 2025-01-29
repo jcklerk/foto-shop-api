@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
+    public function __construct() {
+
+        // $this->middleware('post-create', ['only' => ['create']]);
+
+        // $this->middleware('post-edit', ['only' => ['edit']]);
+    }
     /**
      * Display a listing of the resource.
      */

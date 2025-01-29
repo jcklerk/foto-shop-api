@@ -17,15 +17,13 @@ Route::get('/', function (Request $request) {
 Route::post('/login', 'App\Http\Controllers\LoginController@login');
 
 
-Route::apiResource('/event', App\Http\Controllers\EventController::class);
+Route::apiResource('/event', App\Http\Controllers\EventController::class)->middleware(['admin','auth:sanctum'])->only(['create', 'store', 'update', 'destroy']);
 
-Route::apiResource('/organization', App\Http\Controllers\OrganizationController::class);
+Route::apiResource('/organization', App\Http\Controllers\OrganizationController::class)->middleware(['admin','auth:sanctum'])->only(['create', 'store', 'update', 'destroy']);;
 
-Route::apiResource('/picture', App\Http\Controllers\PictureController::class);
+Route::apiResource('/picture', App\Http\Controllers\PictureController::class)->middleware(['admin','auth:sanctum'])->only(['create', 'store', 'update', 'destroy']);;
 
-Route::apiResource('/run', App\Http\Controllers\RunsController::class);
-
-Route::apiResource('/picture', App\Http\Controllers\PictureController::class);
+Route::apiResource('/run', App\Http\Controllers\RunsController::class)->middleware(['admin','auth:sanctum'])->only(['create', 'store', 'update', 'destroy']);;
 
 Route::prefix('user')->name('user.')->group(function ($test) {
 
@@ -43,4 +41,4 @@ Route::prefix("checkout")->name("checkout.")->group(function () {
 Route::prefix("processPicture")->name("processPicture.")->group(function () {
     Route::get('', 'App\Http\Controllers\PictureProcessController@index')->name('index');
     Route::post('', 'App\Http\Controllers\PictureProcessController@store')->name('store');
-});
+})->middleware('serviceWorker');

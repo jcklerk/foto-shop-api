@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('run_id')->constrained()->nullable()->default(null); // Correctly sets up foreign key for `run_id`
             // $table->unsignedBigInteger('original_picture_id')->nullable()->default(null); // Define the column first
             $table->enum('processed', ["false", "true", "not needed"])->default("false"); // voucher every 10 ore 15 nubers
+            $table->timestamp('original_creation_date')->nullable();
             $table->timestamps();
         });
 

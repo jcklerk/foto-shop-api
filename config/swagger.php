@@ -160,10 +160,11 @@ return [
     |
     */
     "security_schemes" => [
-        "authorization" => [
-            "type" => "bearerToken", // need correct type for auth.
-            "name" => "authorization",
-            "in" => "header"
+        "PersenalAccesToken" => [
+            "type" => "http",
+            "name" => "bearer",
+            "scheme" => "bearer",
+            "in" => "header",
         ],
         // "apiKey1" => [
         //     "type" => "apiKey",

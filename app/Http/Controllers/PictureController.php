@@ -6,6 +6,7 @@ use App\Models\Picture;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreatePictureRequest;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class PictureController extends Controller
 {
@@ -37,10 +38,25 @@ class PictureController extends Controller
                     if (!$path) {
                         return response()->json(['status' => 'File upload failed'], 500);
                     }
-                    Picture::create([
-                        'img' => $path,
-                        'processed' => 'false',
-                    ]);
+                // Try to get the original creation date from EXIF data
+                $originalCreationDate = null;
+                if ($guessExtension === 'jpg' || $guessExtension === 'jpeg' || $guessExtension === 'tiff') {
+                    if (function_exists('exif_read_data')) {
+                        $exif = exif_read_data($file->getRealPath());
+                        if (!empty($exif['DateTimeOriginal'])) {
+                            $originalCreationDate = Carbon::createFromFormat('Y:m:d H:i:s', $exif['DateTimeOriginal']);
+                        }
+                    }
+                }
+                print_r($originalCreationDate);
+
+                // Store the file information in the database
+                Picture::create([
+                    'img' => $path,
+                    'processed' => 'false',
+                    'run_id' => 1,
+                    'original_creation_date' => $originalCreationDate, // Store the original creation date
+                ]);
                 } else {
                     print("File already exists");
                 }              

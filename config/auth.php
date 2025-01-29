@@ -116,4 +116,6 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
+    'workers_token' => env('WORKERS_TOKEN' , 'EPbatwFxKg£oC£|N37}A~3>TP$4f&9~d9^{x5,h2p;<q~\e7:('),
+
 ];

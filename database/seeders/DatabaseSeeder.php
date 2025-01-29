@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Justin Klerk',
             'email' => 'justin@jcklerk.dev',
+            'role' => 'Admin',
         ]);
 
         $org = Organization::create([

@@ -14,6 +14,7 @@ class Picture extends Model
         'processed',
         'searchText',
         'thumbnail',
+        'run_id',
     ];
 
     public function run()
