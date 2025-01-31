@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\admin;
 use App\Models\Event;
 use Carbon\Traits\ToStringFormat;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    public function __construct() {
+    // public function __construct() {
 
-        // $this->middleware('post-create', ['only' => ['create']]);
+    //     $this->middleware([admin::class,'auth:sanctum'], ['only' => ['create', 'store', 'update', 'destroy']]);
 
-        // $this->middleware('post-edit', ['only' => ['edit']]);
-    }
+    // }
     /**
      * Display a listing of the resource.
      */

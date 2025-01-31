@@ -2,6 +2,12 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use \App\Http\Middleware\admin;
+use \App\Http\Controllers\EventController;
+use \App\Http\Controllers\OrganizationController;
+use \App\Http\Controllers\PictureController;
+use \App\Http\Controllers\RunsController;
+
 
 Route::get('/', function (Request $request) {
     return 
@@ -17,13 +23,31 @@ Route::get('/', function (Request $request) {
 Route::post('/login', 'App\Http\Controllers\LoginController@login');
 
 
-Route::apiResource('/event', App\Http\Controllers\EventController::class)->middleware(['admin','auth:sanctum'])->only(['create', 'store', 'update', 'destroy']);
+// Public routes for index and show
+Route::apiResource('/event', EventController::class)
+    ->only(['index', 'show']);
 
-Route::apiResource('/organization', App\Http\Controllers\OrganizationController::class)->middleware(['admin','auth:sanctum'])->only(['create', 'store', 'update', 'destroy']);;
+Route::apiResource('/organization', OrganizationController::class)
+    ->only(['index', 'show']);
 
-Route::apiResource('/picture', App\Http\Controllers\PictureController::class)->middleware(['admin','auth:sanctum'])->only(['create', 'store', 'update', 'destroy']);;
+Route::apiResource('/picture', PictureController::class)
+    ->only(['index', 'show']);
 
-Route::apiResource('/run', App\Http\Controllers\RunsController::class)->middleware(['admin','auth:sanctum'])->only(['create', 'store', 'update', 'destroy']);;
+Route::apiResource('/run', RunsController::class)
+    ->only(['index', 'show']);
+
+// Secured routes for other actions
+Route::middleware([admin::class, 'auth:sanctum'])
+    ->group(function () {
+        Route::apiResource('/event', EventController::class)
+            ->except(['index', 'show']);
+        Route::apiResource('/organization', OrganizationController::class)
+            ->except(['index', 'show']);
+        Route::apiResource('/picture', PictureController::class)
+            ->except(['index', 'show']);
+        Route::apiResource('/run', RunsController::class)
+            ->except(['index', 'show']);
+    });
 
 Route::prefix('user')->name('user.')->group(function ($test) {
 

@@ -12,6 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // $middleware->append([
+        //     \App\Http\Middleware\admin::class,
+        //     \App\Http\Middleware\serviceWorker::class,
+        // ]);
         $middleware->statefulApi();
         $middleware->group('api', [
             \G4T\Swagger\Middleware\SetJsonResponseMiddleware::class,
