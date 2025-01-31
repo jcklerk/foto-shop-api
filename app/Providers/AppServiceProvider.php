@@ -19,6 +19,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if (config('app.env') != 'local') {
+            resolve(\Illuminate\Routing\UrlGenerator::class)->forceScheme('https');
+        }
+        
     }
 }
