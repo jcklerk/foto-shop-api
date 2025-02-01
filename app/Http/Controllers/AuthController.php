@@ -12,7 +12,7 @@ use MagicLink\MagicLink;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Mail;
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
     public function login(LoginRequest $request)
     {
@@ -57,6 +57,14 @@ class LoginController extends Controller
             'success' => true,
             //'message' => 'Login link sent',
             'message' => $url,
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->token()->revoke();
+        return response()->json([
+            'message' => 'Successfully logged out'
         ]);
     }
 }

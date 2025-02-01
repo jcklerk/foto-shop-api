@@ -22,7 +22,9 @@ Route::get('/', function (Request $request) {
 
 
 
-Route::post('/login', 'App\Http\Controllers\LoginController@login');
+Route::post('/login', 'App\Http\Controllers\AuthController@login');
+Route::post('/logout', 'App\Http\Controllers\AuthController@logout')->middleware('auth:api');
+
 
 
 // Public routes for index and show
