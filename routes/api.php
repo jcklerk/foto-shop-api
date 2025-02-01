@@ -41,7 +41,7 @@ Route::apiResource('/run', RunsController::class)
     ->only(['index', 'show']);
 
 // Secured routes for other actions
-Route::middleware([admin::class, 'auth:api'])
+Route::middleware(['auth:api', admin::class])
     ->group(function () {
         Route::apiResource('/event', EventController::class)
             ->except(['index', 'show']);

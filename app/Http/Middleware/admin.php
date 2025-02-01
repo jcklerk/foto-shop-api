@@ -16,7 +16,8 @@ class admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::guest() && (Auth::user()->role == "Admin") ) {
+        // check if user is authenticated and is an admin
+        if ((Auth::user()->role == "Admin") ) {
         return $next($request);
         }
         // unauthorized api response
