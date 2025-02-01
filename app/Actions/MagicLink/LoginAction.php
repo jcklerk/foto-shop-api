@@ -3,6 +3,7 @@
 namespace App\Actions\MagicLink;
 
 use App\Models\User;
+use Laravel\Passport\Passport;
 use MagicLink\Actions\ActionAbstract;
 
 class LoginAction extends ActionAbstract
@@ -23,9 +24,10 @@ class LoginAction extends ActionAbstract
         if ($this->rememberMe){
             $expiresAt = now()->addMinutes(10080); // 7 days
         }
+        // Passport::tokensExpireIn($expiresAt);
        
 
-        $token = $this->user->createToken('api-token', ['*'], $expiresAt)->plainTextToken;
+        $token = $this->user->createToken('api-token')->accessToken;
 
         return response()->json([
             'success' => true,

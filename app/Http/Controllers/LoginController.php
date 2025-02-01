@@ -54,7 +54,7 @@ class LoginController extends Controller
          //Mail::to($user->email)->send(new LoginLink($url, $user->name));
 
         return response()->json([
-            'success' => false,
+            'success' => true,
             //'message' => 'Login link sent',
             'message' => $url,
         ]);

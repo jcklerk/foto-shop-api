@@ -7,7 +7,7 @@ use \App\Http\Controllers\EventController;
 use \App\Http\Controllers\OrganizationController;
 use \App\Http\Controllers\PictureController;
 use \App\Http\Controllers\RunsController;
-
+use App\Http\Middleware\serviceWorker;
 
 Route::get('/', function (Request $request) {
     return 
@@ -18,6 +18,8 @@ Route::get('/', function (Request $request) {
         'documentation' => '/documentation',
     ];
 });
+
+
 
 
 Route::post('/login', 'App\Http\Controllers\LoginController@login');
@@ -37,7 +39,7 @@ Route::apiResource('/run', RunsController::class)
     ->only(['index', 'show']);
 
 // Secured routes for other actions
-Route::middleware([admin::class, 'auth:sanctum'])
+Route::middleware([admin::class, 'auth:api'])
     ->group(function () {
         Route::apiResource('/event', EventController::class)
             ->except(['index', 'show']);
@@ -49,12 +51,12 @@ Route::middleware([admin::class, 'auth:sanctum'])
             ->except(['index', 'show']);
     });
 
-Route::prefix('user')->name('user.')->group(function ($test) {
+Route::prefix('user')->name('user.')->middleware(['auth:api'])->group(function ($test) {
 
     Route::apiResource('account', App\Http\Controllers\UserController::class);
     Route::apiResource('order', App\Http\Controllers\OrderController::class);
 
-})->middleware('auth:sanctum');
+});
 
 
 Route::prefix("checkout")->name("checkout.")->group(function () {
@@ -62,7 +64,7 @@ Route::prefix("checkout")->name("checkout.")->group(function () {
     Route::post('webhook', 'App\Http\Controllers\PaymentController@handleWebhookNotification')->name('webhooks');
 });
 
-Route::prefix("processPicture")->name("processPicture.")->group(function () {
+Route::prefix("processPicture")->name("processPicture.")->middleware(serviceWorker::class)->group(function () {
     Route::get('', 'App\Http\Controllers\PictureProcessController@index')->name('index');
     Route::post('', 'App\Http\Controllers\PictureProcessController@store')->name('store');
-})->middleware('serviceWorker');
+});

@@ -71,7 +71,8 @@ return [
     */
     "auth_middlewares" => [
         "auth",
-        "auth:sanctum"
+        "auth:sanctum",
+        "auth:api",
     ],
 
     /*
