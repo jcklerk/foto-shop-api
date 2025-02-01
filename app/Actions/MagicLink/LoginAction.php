@@ -24,7 +24,7 @@ class LoginAction extends ActionAbstract
         if ($this->rememberMe){
             $expiresAt = now()->addMinutes(10080); // 7 days
         }
-        // Passport::tokensExpireIn($expiresAt);
+        Passport::tokensExpireIn($expiresAt);
        
 
         $token = $this->user->createToken('api-token')->accessToken;
